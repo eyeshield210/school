@@ -25,4 +25,17 @@ MatiereSchema.methods.matTDO = function(){
     }
 };
 
+MatiereSchema.statics.deleteMatiere = function(body, res, next){
+    this.findByIdAndRemove(body.id, function(err) {
+        if (err) return next(err);
+        res.json(body);
+    });
+}
+MatiereSchema.statics.updateMatiere = function(body, res, next){
+    this.findByIdAndUpdate(body.id, body, function (err, put) {
+        if (err) return next(err);
+        res.json(body);
+    });
+}
+
 module.exports= mongoose.model('Matiere',MatiereSchema);

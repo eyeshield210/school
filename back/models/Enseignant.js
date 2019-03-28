@@ -2,11 +2,9 @@ const mongoose = require('mongoose');
 const Matiere = mongoose.model('Matiere');
 
 let EnseignantSchema = new mongoose.Schema({
-    nom: {
-        type: String
-    },
+    nom: String,
     matieres: [{
-        type : mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Matiere'
     }]
 }, {
@@ -29,5 +27,19 @@ EnseignantSchema.methods.ensTDO = function() {
         })
     }
 };
+
+EnseignantSchema.statics.deleteEnseignant = function(body, res, next){
+    this.findByIdAndRemove(body.id, function(err) {
+        if (err) return next(err);
+        res.json(body);
+    });
+}
+
+EnseignantSchema.statics.updateEnseignant = function(body, res, next){
+    this.findByIdAndUpdate(body.id, body, function (err, put) {
+        if (err) return next(err);
+        res.json(body);
+    });
+}
 
 module.exports=mongoose.model('Enseignant', EnseignantSchema);

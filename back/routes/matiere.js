@@ -13,53 +13,59 @@ router.get('/', function (req, res, next) {
     });
   });
 
-  router.post('/', function (req, res, next) {
-    var enseignant = new Enseignant({
-        nom: req.body.nom,
-    });
-    console.log(req.body)
-    enseignant.save(function(err) {
-        if (err)
-           throw err;
-        else 
-           console.log('Enseignant enregistré');
-           res.statusCode = 200;
-           return res.json("Enseignant enregistré");
-    });
-  });
-// router.post('/', function (req, res)){
-//     console.log('tata:' + req.body.ensID);
-//     if (!req.body.ensID || !req.body.content)
-//       return res.sendStatus(422);
+router.post('/', function (req, res){
+    console.log('tata:' + req.body.ensID);
+    if (!req.body.ensID || !req.body.content)
+      return res.sendStatus(422);
   
-//     Enseignant.findById(req.body.ensID).then((enseignant) =>{
-//       let matiere = new Matiere();
-//       matiere.content = req.body.content;
-//       matiere.state = req.body.state;
-//       matiere.enseignant = enseignant;
-//       matiere.save().then(() => {
-//         enseignant.matieres.push(matiere);
-//         enseignant.save().then(() => {
-//           res.statusCode = 200;
-//           return res.json(matiere.matTDO())
-//         }).catch((e) => {
-//             console.log(e);
-//           });
-//         });
-//     }
-// }
-// }
+    Enseignant.findById(req.body.ensID).then((enseignant) =>{
+      let matiere = new Matiere();
+      matiere.content = req.body.content;
+      matiere.state = req.body.state;
+      matiere.enseignant = enseignant;
+      matiere.save().then(() => {
+        enseignant.matieres.push(matiere);
+        enseignant.save().then(() => {
+          res.statusCode = 200;
+          return res.json(matiere.matTDO())
+        }).catch((e) => {
+            console.log(e);
+          });
+        });
+    });
+});
 
-// router.delete('/', function (req, res) {
-//     Matiere.deleteMatiere(req.body,function(err,count){
-//     if (err) {
-//         res.status(400).json(err);
-//     }
-//     else {
-//         res.json(req.body);
+router.put('/', function (req, res, next) {
+  Matiere.updateMatiere(req.body,res,function(err){
+    if (err) {
+        return res.send('Error updating Matiere!');
+    }
+    else {
+        return res.json(req.body);
+    }
+  });
+});
+  
+router.delete('/', function (req, res) {
+    Matiere.deleteMatiere(req.body,res,function(err){
+      if (err) {
+          return res.send('Error deleting Matiere!');
+      }
+      else {
+          return res.json(req.body);
+      }
+    });
+});
+
+// router.delete('/:id', function(req, res) {
+
+//   Matiere.findByIdAndRemove(req.params.id, function(err) {
+//     if (!err) {
+//         return res.send('Matiere deleted!');
+//     } else {
+//         return res.send('Error deleting Matiere!');
 //     }
 // });
 // });
-
 
 module.exports = router;

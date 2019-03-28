@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
     Enseignant.find()
     .populate('matieres')
     .then((enseignants) => {
-        
+
         res.statusCode = 200;
         return res.json({
             lesenseignants: enseignants.map((enseignant) => {
@@ -26,19 +26,35 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res, next) {
-    var enseignant = new Enseignant({
-        nom: req.body.nom,
-        matieres: req.body.matieres
+    Enseignant.create(req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
     });
-    console.log(req.body)
-    enseignant.save(function(err) {
-        if (err)
-           throw err;
-        else 
-           console.log('Enseignant enregistré');
-           res.statusCode = 200;
-           return res.json("Enseignant enregistré");
+});
+
+router.put('/', function (req, res, next) {
+    Enseignant.updateEnseignant(req.body,res,function(err){
+      if (err) {
+          return res.send('Error updating Enseignant!');
+      }
+      else {
+          return res.json(req.body);
+      }
     });
   });
+
+router.delete('/', function (req, res) {
+    Enseignant.remove();
+    Enseignant.deleteEnseignant(req.body,res,function(err){
+      if (err) {
+          return res.send('Error deleting Enseignant!');
+      }
+      else {
+          return res.json(req.body);
+      }
+    });
+});
+
+
 
 module.exports = router;
