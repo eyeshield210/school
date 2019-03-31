@@ -20,7 +20,7 @@
     <td mat-cell *matCellDef="let row">{{row.enseignantNOM}}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/enseignant/detail/', row.enseignant]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/enseignant/detail/', row.enseignantID]"></tr>
     </table>
     </div>
     </div>
