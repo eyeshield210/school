@@ -12,7 +12,7 @@ export class EnseignantComponent implements OnInit {
   isLoadingResults = true;
   constructor(private api: ApiService) { }
 
-  ngOnInit() {
+  getEnseignants(){
     this.api.getEnseignants().subscribe(
       res => {
       this.data = res["lesenseignants"];
@@ -25,6 +25,10 @@ export class EnseignantComponent implements OnInit {
       this.isLoadingResults = false;
       }
       );
+  }
+
+  ngOnInit() {
+    this.getEnseignants();
   }
 
 }

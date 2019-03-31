@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Enseignant } from './enseignant'
+
+import { Enseignant } from './enseignant';
+import { Matiere } from './matiere';
 
 const httpOptions = {
 headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
-const apiUrl = "/api";
-const apiUrlEns = "/api/enseignants"
+
+const apiUrlEns = "/api/enseignants";
+const apiUrlMat = "/api/matieres";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +34,7 @@ export class ApiService {
     );
     }
 
-    getEnseignant(id: number): Observable<Enseignant> {
+    getEnseignant(id): Observable<Enseignant> {
       const url = `${apiUrlEns}/${id}`;
       return this.http.get<Enseignant>(url).pipe(
       tap(_ => console.log(`fetched enseignant id=${id}`)),
@@ -59,4 +62,10 @@ export class ApiService {
       );
     }
 
+    getMatieres(): Observable<Matiere[]> {
+      return this.http.get<Matiere[]>(apiUrlMat).pipe(
+    tap(matieres => console.log("fetched matieres: " + matieres)),
+    catchError(this.handleError("getMatieres", []))
+    );
+    }
 }

@@ -27,7 +27,7 @@ export class EnseignantDetailComponent implements OnInit {
     this.isLoadingResults = false;
     });
     }
-   deleteProduct(id) {
+   deleteEnseignant(id) {
     this.isLoadingResults = true;
     this.api.deleteEnseignant(id).subscribe(
     res => {

@@ -1,5 +1,8 @@
 export class Matiere {
     content: string;
-    ensID: string;
+    id : string;
+    state: boolean;
+    enseignantID: string;
+    enseignantNOM: string;
     }
     

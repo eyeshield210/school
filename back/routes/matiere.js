@@ -7,10 +7,19 @@ var Matiere = require('../models/Matiere');
 router.use(bodyParser.json());
 
 router.get('/', function (req, res, next) {
-    Matiere.find(function (err, matieres) {
-      if (err) return next(err);
-      res.json(matieres);
-    });
+  Matiere.find()
+  .then((matieres) => {
+
+      res.statusCode = 200;
+      return res.json({
+          lesmatieres: matieres.map((matiere) => {
+          return matiere.matTDO();
+          })
+      });
+  })
+  .catch((err) => {
+      console.log(err)
+  });
   });
 
 router.post('/', function (req, res){

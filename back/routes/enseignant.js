@@ -33,7 +33,7 @@ router.get('/:id', function (req, res) {
 
         res.statusCode = 200;
         enseignant = enseignant.ensTDO();
-        return res.json({ enseignant });
+        return res.json( enseignant );
     })
     .catch((err) => {
         console.log(err)

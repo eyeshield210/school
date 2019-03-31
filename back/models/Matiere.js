@@ -21,7 +21,9 @@ MatiereSchema.methods.matTDO = function(){
     return {
         id:this._id,
         content:this.content,
-        state:this.state
+        state:this.state,
+        enseignantID: this.enseignant,
+        enseignantNOM: ""
     }
 };
 

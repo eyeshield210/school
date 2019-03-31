@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Matiere = mongoose.model('Matiere');
 
 let EnseignantSchema = new mongoose.Schema({
     nom: String,
