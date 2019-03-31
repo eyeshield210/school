@@ -8,6 +8,7 @@ const httpOptions = {
 headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 const apiUrl = "/api";
+const apiUrlEns = "/api/enseignants"
 
 @Injectable({
   providedIn: 'root'
@@ -24,34 +25,34 @@ export class ApiService {
       };
     }
     getEnseignants(): Observable<Enseignant[]> {
-      return this.http.get<Enseignant[]>(apiUrl).pipe(
+      return this.http.get<Enseignant[]>(apiUrlEns).pipe(
     tap(enseignants => console.log("fetched enseignants:" + enseignants)),
     catchError(this.handleError("getEnseignants", []))
     );
     }
 
     getEnseignant(id: number): Observable<Enseignant> {
-      const url = `${apiUrl}/${id}`;
+      const url = `${apiUrlEns}/${id}`;
       return this.http.get<Enseignant>(url).pipe(
       tap(_ => console.log(`fetched enseignant id=${id}`)),
       catchError(this.handleError<Enseignant>(`getEnseignant id=${id}`))
       );
     }
     addEnseignant (enseignant): Observable<Enseignant> {
-      return this.http.post<Enseignant>(apiUrl, enseignant, httpOptions).pipe(
+      return this.http.post<Enseignant>(apiUrlEns, enseignant, httpOptions).pipe(
       tap((enseignant: Enseignant) => console.log(`added enseignant w/ id=${enseignant.nom}`)),
       catchError(this.handleError<Enseignant>('addEnseignant'))
       );
     }
     updateEnseignant (id, enseignant): Observable<any> {
-      const url = `${apiUrl}/${id}`;
+      const url = `${apiUrlEns}/${id}`;
       return this.http.put(url, enseignant, httpOptions).pipe(
       tap(_ => console.log(`updated enseignant id=${id}`)),
       catchError(this.handleError<any>('updateEnseignant'))
       );
     }
     deleteEnseignant (id): Observable<Enseignant> {
-      const url = `${apiUrl}/${id}`;
+      const url = `${apiUrlEns}/${id}`;
       return this.http.delete<Enseignant>(url, httpOptions).pipe(
       tap(_ => console.log(`deleted enseignant id=${id}`)),
       catchError(this.handleError<Enseignant>('deleteEnseignant'))

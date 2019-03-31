@@ -1,5 +1,5 @@
-export class Product {
-    nom: string;
-    enseignant: number;
+export class Matiere {
+    content: string;
+    ensID: string;
     }
     

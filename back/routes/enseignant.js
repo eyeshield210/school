@@ -25,6 +25,21 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/:id', function (req, res) {
+
+    Enseignant.findById(req.params.id)
+    .populate('matieres')
+    .then((enseignant) => {
+
+        res.statusCode = 200;
+        enseignant = enseignant.ensTDO();
+        return res.json({ enseignant });
+    })
+    .catch((err) => {
+        console.log(err)
+    });
+});
+
 router.post('/', function (req, res, next) {
     Enseignant.create(req.body, function (err, post) {
       if (err) return next(err);
@@ -32,29 +47,40 @@ router.post('/', function (req, res, next) {
     });
 });
 
-router.put('/', function (req, res, next) {
-    Enseignant.updateEnseignant(req.body,res,function(err){
-      if (err) {
-          return res.send('Error updating Enseignant!');
-      }
-      else {
-          return res.json(req.body);
-      }
+router.put('/:id', function (req, res, next) {
+    Enseignant.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
     });
   });
 
-router.delete('/', function (req, res) {
-    Enseignant.remove();
-    Enseignant.deleteEnseignant(req.body,res,function(err){
-      if (err) {
-          return res.send('Error deleting Enseignant!');
-      }
-      else {
-          return res.json(req.body);
-      }
-    });
-});
 
+router.delete('/:id', function(req, res) {
+    Enseignant.findById(req.params.id)
+    .populate('matieres')
+    .then((enseignant)=>{
+        if(enseignant){//Il faut vérifier que l'enseignant est différent de null (sinon ça fait un warning)
+            enseignant.matieres.forEach(function(matiere){
+                console.log(matiere.id);
+                Matiere.findByIdAndDelete(matiere.id, function(err){
+                    if (!err) {
+                        //Si on utilise res.send ici ça fait un bug (on ne peut pas l'utiliser plusieurs fois et il est)
+                    } else {
+
+                    }
+                });
+            });
+        }
+    });
+    Enseignant.findByIdAndDelete(req.params.id, function(err) {
+        if (!err) {
+            return res.send('Enseignant deleted!');
+        } else {
+            return res.send('Error deleting Enseignant!');
+        }
+    });
+  
+});
 
 
 module.exports = router;

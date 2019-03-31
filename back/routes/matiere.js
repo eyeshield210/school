@@ -35,37 +35,48 @@ router.post('/', function (req, res){
     });
 });
 
-router.put('/', function (req, res, next) {
-  Matiere.updateMatiere(req.body,res,function(err){
-    if (err) {
+// router.put('/', function (req, res, next) {
+//   Matiere.updateMatiere(req.body,res,function(err){
+//     if (err) {
+//         return res.send('Error updating Matiere!');
+//     }
+//     else {
+//         return res.json(req.body);
+//     }
+//   });
+// });
+
+router.put('/:id', function(req, res) {
+
+  Matiere.findByIdAndUpdate(req.params.id, req.body,function(err) {
+    if (!err) {
+        return res.send('Matiere updated!');
+    } else {
         return res.send('Error updating Matiere!');
     }
-    else {
-        return res.json(req.body);
-    }
-  });
+});
 });
   
-router.delete('/', function (req, res) {
-    Matiere.deleteMatiere(req.body,res,function(err){
-      if (err) {
-          return res.send('Error deleting Matiere!');
-      }
-      else {
-          return res.json(req.body);
-      }
-    });
+// router.delete('/', function (req, res) {
+//     Matiere.deleteMatiere(req.body,res,function(err){
+//       if (err) {
+//           return res.send('Error deleting Matiere!');
+//       }
+//       else {
+//           return res.json(req.body);
+//       }
+//     });
+// });
+
+router.delete('/:id', function(req, res) {
+
+  Matiere.findByIdAndRemove(req.params.id, function(err) {
+    if (!err) {
+        return res.send('Matiere deleted!');
+    } else {
+        return res.send('Error deleting Matiere!');
+    }
 });
-
-// router.delete('/:id', function(req, res) {
-
-//   Matiere.findByIdAndRemove(req.params.id, function(err) {
-//     if (!err) {
-//         return res.send('Matiere deleted!');
-//     } else {
-//         return res.send('Error deleting Matiere!');
-//     }
-// });
-// });
+});
 
 module.exports = router;

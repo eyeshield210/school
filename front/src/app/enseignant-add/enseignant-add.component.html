@@ -1,3 +1,27 @@
-<mat-form-field>
-  <input matInput placeholder="Nom de l'enseignant">
-</mat-form-field>
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/enseignants']">
+      <mat-icon>list</mat-icon>
+    </a>
+  </div>
+  <mat-card class="example-card">
+    <form [formGroup]="enseignantForm" (ngSubmit)="onFormSubmit(enseignantForm.value)">
+  
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enseignant Name" formControlName="nom" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!enseignantForm.get('nom').valid && enseignantForm.get('nom').touched">Please enter
+            Enseignant Name</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!enseignantForm.valid" mat-flat-button color="primary">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

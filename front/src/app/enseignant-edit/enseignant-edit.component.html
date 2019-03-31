@@ -1,3 +1,40 @@
-<p>
-  enseignant-edit works!
-</p>
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/enseignants']">
+      <mat-icon>list</mat-icon>
+    </a>
+  </div>
+  <mat-card class="example-card">
+    <form [formGroup]="enseignantForm" (ngSubmit)="onFormSubmit(enseignantForm.value)">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enseignant Name" formControlName="nom" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!enseignantForm.get('nom').valid && enseignantForm.get('nom').touched">Please enter
+            Enseignant Name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enseignant Description" formControlName="prod_desc" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!enseignantForm.get('prod_desc').valid && enseignantForm.get('prod_desc').touched">Please enter
+            Enseignant Description</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Enseignant Price" formControlName="prod_price" [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!enseignantForm.get('prod_price').valid && enseignantForm.get('prod_price').touched">Please enter
+            Enseignant Price</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!enseignantForm.valid" mat-flat-button color="primary">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
